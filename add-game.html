@@ -1,569 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Add Game | Incredible Website Revival</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            background: #080a10;
-            color: #ffffff;
-        }
-
-        header {
-            min-height: 68px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 20px;
-            padding: 14px 25px;
-
-            background: #090b12;
-            border-bottom: 1px solid #252b38;
-        }
-
-        .logo {
-            font-size: 23px;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
-
-        nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-        }
-
-        nav a {
-            color: #c2c9d4;
-            text-decoration: none;
-        }
-
-        nav a:hover {
-            color: #ffffff;
-        }
-
-        main {
-            width: min(1100px, 94%);
-            margin: auto;
-            padding: 40px 0 70px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: clamp(38px, 7vw, 70px);
-        }
-
-        .subtitle {
-            color: #aeb7c5;
-            line-height: 1.6;
-        }
-
-        .panel {
-            margin-top: 25px;
-            padding: 25px;
-
-            background: #111620;
-            border: 1px solid #283142;
-            border-radius: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-
-            font-weight: bold;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-
-            padding: 13px;
-
-            border-radius: 9px;
-            border: 1px solid #303847;
-
-            background: #080b11;
-            color: white;
-
-            font: inherit;
-        }
-
-        textarea {
-            min-height: 110px;
-            resize: vertical;
-        }
-
-        .field {
-            margin-bottom: 20px;
-        }
-
-        .dropzone {
-            padding: 35px 20px;
-
-            text-align: center;
-
-            border: 2px dashed #374256;
-            border-radius: 14px;
-
-            background: #0d1118;
-
-            cursor: pointer;
-
-            transition: 0.2s;
-        }
-
-        .dropzone:hover,
-        .dropzone.dragging {
-            border-color: #00c8ee;
-            background: #101923;
-        }
-
-        .dropzone strong {
-            display: block;
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .muted {
-            color: #8f99a8;
-            font-size: 14px;
-        }
-
-        .button-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        button {
-            padding: 12px 18px;
-
-            border-radius: 9px;
-            border: 1px solid #303847;
-
-            background: #171d28;
-            color: white;
-
-            cursor: pointer;
-
-            font: inherit;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: #202838;
-        }
-
-        .primary {
-            background: #00acd6;
-            border-color: #00acd6;
-        }
-
-        .primary:hover {
-            background: #00c2ed;
-        }
-
-        .danger {
-            background: #5b2028;
-            border-color: #7f2935;
-        }
-
-        .result {
-            display: none;
-        }
-
-        pre {
-            margin: 0;
-
-            padding: 18px;
-
-            overflow-x: auto;
-
-            background: #07090d;
-
-            border: 1px solid #242c39;
-            border-radius: 10px;
-
-            color: #dbe3ee;
-        }
-
-        .preview {
-            display: none;
-
-            margin-top: 20px;
-            padding: 18px;
-
-            background: #07090d;
-
-            border-radius: 10px;
-            border: 1px solid #242c39;
-        }
-
-        .preview iframe {
-            width: 100%;
-            height: 500px;
-
-            border: 0;
-            border-radius: 8px;
-
-            background: white;
-        }
-
-        .badge {
-            display: inline-block;
-
-            padding: 6px 9px;
-            margin-bottom: 10px;
-
-            border-radius: 999px;
-
-            background: #172432;
-            color: #7fddf5;
-
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .notice {
-            padding: 14px;
-
-            border-radius: 9px;
-
-            background: #171d28;
-            color: #aeb7c5;
-
-            line-height: 1.5;
-        }
-
-        footer {
-            padding: 40px 20px;
-
-            text-align: center;
-
-            border-top: 1px solid #252b38;
-
-            color: #717b8a;
-        }
-
-        @media (max-width: 700px) {
-            header {
-                flex-direction: column;
-            }
-
-            nav {
-                justify-content: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Game | Incredible Website Revival</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#080a10;
+    color:#fff
+}
+
+header{
+    min-height:68px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:14px 25px;
+    background:#090b12;
+    border-bottom:1px solid #252b38
+}
+
+.logo{
+    font-size:23px;
+    font-weight:900;
+    letter-spacing:2px
+}
+
+nav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px
+}
+
+nav a{
+    color:#c2c9d4;
+    text-decoration:none
+}
+
+nav a:hover{color:#fff}
+
+main{
+    width:min(1100px,94%);
+    margin:auto;
+    padding:40px 0 70px
+}
+
+h1{
+    margin:0;
+    font-size:clamp(38px,7vw,70px)
+}
+
+.subtitle{
+    color:#aeb7c5;
+    line-height:1.6
+}
+
+.panel{
+    margin-top:25px;
+    padding:25px;
+    background:#111620;
+    border:1px solid #283142;
+    border-radius:15px
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold
+}
+
+input,select,textarea{
+    width:100%;
+    padding:13px;
+    border-radius:9px;
+    border:1px solid #303847;
+    background:#080b11;
+    color:#fff;
+    font:inherit
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical
+}
+
+.field{margin-bottom:20px}
+
+.dropzone{
+    padding:35px 20px;
+    text-align:center;
+    border:2px dashed #374256;
+    border-radius:14px;
+    background:#0d1118;
+    cursor:pointer;
+    transition:.2s
+}
+
+.dropzone:hover,
+.dropzone.dragging{
+    border-color:#00c8ee;
+    background:#101923
+}
+
+.dropzone strong{
+    display:block;
+    font-size:20px;
+    margin-bottom:8px
+}
+
+.muted{
+    color:#8f99a8;
+    font-size:14px
+}
+
+.button-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px
+}
+
+button{
+    padding:12px 18px;
+    border-radius:9px;
+    border:1px solid #303847;
+    background:#171d28;
+    color:#fff;
+    cursor:pointer;
+    font:inherit;
+    font-weight:bold
+}
+
+button:hover{background:#202838}
+
+.primary{
+    background:#00acd6;
+    border-color:#00acd6
+}
+
+.primary:hover{background:#00c2ed}
+
+.danger{
+    background:#5b2028;
+    border-color:#7f2935
+}
+
+.result{display:none}
+
+pre{
+    margin:0;
+    padding:18px;
+    overflow-x:auto;
+    background:#07090d;
+    border:1px solid #242c39;
+    border-radius:10px;
+    color:#dbe3ee
+}
+
+.preview{
+    display:none;
+    margin-top:20px;
+    padding:18px;
+    background:#07090d;
+    border-radius:10px;
+    border:1px solid #242c39
+}
+
+.preview img{
+    width:100%;
+    max-height:300px;
+    object-fit:cover;
+    border-radius:10px
+}
+
+.preview iframe{
+    width:100%;
+    height:500px;
+    border:0;
+    border-radius:8px;
+    background:#fff;
+    margin-top:15px
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 9px;
+    margin-bottom:10px;
+    border-radius:999px;
+    background:#172432;
+    color:#7fddf5;
+    font-size:12px;
+    font-weight:bold
+}
+
+.notice{
+    padding:14px;
+    border-radius:9px;
+    background:#171d28;
+    color:#aeb7c5;
+    line-height:1.5
+}
+
+footer{
+    padding:40px 20px;
+    text-align:center;
+    border-top:1px solid #252b38;
+    color:#717b8a
+}
+
+@media(max-width:700px){
+    header{flex-direction:column}
+    nav{justify-content:center}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-
-    <div class="logo">
-        INCRWD
-    </div>
+    <div class="logo">INCRWD</div>
 
     <nav>
         <a href="index.html">Home</a>
         <a href="games.html">Games</a>
         <a href="gameboys.html">Gameboys</a>
+        <a href="emulator.html">Emulator</a>
         <a href="web.html">Web Viewer</a>
         <a href="add-game.html">Add Game</a>
     </nav>
-
 </header>
-
 
 <main>
 
-    <h1>📦 Add a Game</h1>
+<h1>📦 Add a Game</h1>
 
-    <p class="subtitle">
-        Prepare a game for the Incredible Website Revival library.
-    </p>
+<p class="subtitle">
+    Prepare a game for the Incredible Website Revival library.
+</p>
 
+<div class="panel">
 
-    <!-- FILE -->
+    <h2>1. Choose your game</h2>
 
-    <div class="panel">
+    <div id="dropzone" class="dropzone">
+        <strong>Drop a game file here</strong>
+        <span class="muted">or click to choose a file</span>
+        <br><br>
+        <span class="muted">
+            HTML • ZIP • GB • GBC • GBA
+        </span>
+    </div>
 
-        <h2>1. Choose your game</h2>
+    <input
+        id="file"
+        type="file"
+        accept=".html,.htm,.zip,.gb,.gbc,.gba"
+        hidden
+    >
 
-        <div
-            id="dropzone"
-            class="dropzone">
+    <div
+        id="fileInfo"
+        class="notice"
+        style="display:none;margin-top:15px;">
+    </div>
 
-            <strong>
-                Drop a game file here
-            </strong>
+</div>
 
-            <span class="muted">
-                or click to choose a file
-            </span>
+<div class="panel">
 
-            <br><br>
+    <h2>2. Cover image</h2>
 
-            <span class="muted">
-                HTML • ZIP • GB • GBC • GBA
-            </span>
+    <div id="imageDropzone" class="dropzone">
 
-        </div>
+        <strong>Choose a cover image</strong>
+
+        <span class="muted">
+            PNG, JPG, JPEG, or WEBP
+        </span>
+
+    </div>
+
+    <input
+        id="imageFile"
+        type="file"
+        accept=".png,.jpg,.jpeg,.webp"
+        hidden
+    >
+
+    <div
+        id="imageInfo"
+        class="notice"
+        style="display:none;margin-top:15px;">
+    </div>
+
+    <div
+        id="imagePreview"
+        class="preview">
+        <img id="previewImage" alt="Game cover">
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <h2>3. Game information</h2>
+
+    <div class="field">
+        <label for="title">Game title</label>
 
         <input
-            id="file"
-            type="file"
-            accept=".html,.htm,.zip,.gb,.gbc,.gba"
-            hidden
-        >
+            id="title"
+            type="text"
+            placeholder="Example Game">
+    </div>
 
-        <div
-            id="fileInfo"
-            class="notice"
-            style="display:none;margin-top:15px;">
+    <div class="field">
+        <label for="description">Description</label>
+
+        <textarea
+            id="description"
+            placeholder="Describe the game..."></textarea>
+    </div>
+
+    <div class="field">
+        <label for="category">Category</label>
+
+        <select id="category">
+            <option>Arcade</option>
+            <option>Action</option>
+            <option>Adventure</option>
+            <option>Racing</option>
+            <option>Platformer</option>
+            <option>Puzzle</option>
+            <option>Strategy</option>
+            <option>Sports</option>
+            <option>Multiplayer</option>
+            <option>Indie</option>
+            <option>Educational</option>
+            <option>Creative</option>
+            <option>Gameboys</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label for="platform">Platform</label>
+
+        <select id="platform">
+            <option>Web</option>
+            <option>PC</option>
+            <option>Game Boy</option>
+            <option>Game Boy Color</option>
+            <option>Game Boy Advance</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label for="url">Game URL</label>
+
+        <input
+            id="url"
+            type="url"
+            placeholder="https://example.com/game">
+
+        <div class="muted" style="margin-top:8px">
+            Leave blank for uploaded/local games.
         </div>
+    </div>
+
+    <div class="field">
+        <label for="tags">Tags</label>
+
+        <input
+            id="tags"
+            type="text"
+            placeholder="3D, Racing, Driving">
+
+        <div class="muted" style="margin-top:8px">
+            Separate tags with commas.
+        </div>
+    </div>
+
+    <div class="button-row">
+
+        <button id="generate" class="primary">
+            Generate Game Entry
+        </button>
+
+        <button id="clear" class="danger">
+            Clear
+        </button>
 
     </div>
 
+</div>
 
-    <!-- INFORMATION -->
+<div
+    id="previewPanel"
+    class="panel"
+    style="display:none;">
 
-    <div class="panel">
+    <h2>4. Preview</h2>
 
-        <h2>2. Game information</h2>
+    <div id="previewText" class="notice"></div>
 
-        <div class="field">
+    <div id="browserPreview" class="preview">
 
-            <label for="title">
-                Game title
-            </label>
+        <h3>Browser preview</h3>
 
-            <input
-                id="title"
-                type="text"
-                placeholder="Example Game">
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="description">
-                Description
-            </label>
-
-            <textarea
-                id="description"
-                placeholder="Describe the game..."></textarea>
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="category">
-                Category
-            </label>
-
-            <select id="category">
-
-                <option>Arcade</option>
-                <option>Action</option>
-                <option>Adventure</option>
-                <option>Racing</option>
-                <option>Platformer</option>
-                <option>Puzzle</option>
-                <option>Strategy</option>
-                <option>Sports</option>
-                <option>Multiplayer</option>
-                <option>Indie</option>
-                <option>Educational</option>
-                <option>Creative</option>
-                <option>Gameboys</option>
-                <option>Other</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="platform">
-                Platform
-            </label>
-
-            <select id="platform">
-
-                <option>Web</option>
-                <option>PC</option>
-                <option>Game Boy</option>
-                <option>Game Boy Color</option>
-                <option>Game Boy Advance</option>
-                <option>Other</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="url">
-                Game URL
-            </label>
-
-            <input
-                id="url"
-                type="url"
-                placeholder="https://example.com/game">
-
-            <div class="muted" style="margin-top:8px;">
-                Leave blank for uploaded/local game files.
-            </div>
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="tags">
-                Tags
-            </label>
-
-            <input
-                id="tags"
-                type="text"
-                placeholder="3D, Racing, Driving">
-
-            <div class="muted" style="margin-top:8px;">
-                Separate tags with commas.
-            </div>
-
-        </div>
-
-
-        <div class="button-row">
-
-            <button
-                id="generate"
-                class="primary">
-                Generate Game Entry
-            </button>
-
-            <button
-                id="clear"
-                class="danger">
-                Clear
-            </button>
-
-        </div>
+        <iframe
+            id="previewFrame"
+            sandbox="allow-scripts allow-forms">
+        </iframe>
 
     </div>
 
+</div>
 
-    <!-- PREVIEW -->
+<div id="resultPanel" class="panel result">
 
-    <div
-        id="previewPanel"
-        class="panel"
-        style="display:none;">
+    <h2>5. Generated games.json entry</h2>
 
-        <h2>3. Preview</h2>
+    <p class="muted">
+        Copy this object into your games.json.
+    </p>
 
-        <div
-            id="previewText"
-            class="notice">
-        </div>
+    <pre id="result"></pre>
 
-        <div
-            id="browserPreview"
-            class="preview">
+    <div class="button-row" style="margin-top:15px">
 
-            <h3>
-                Browser preview
-            </h3>
-
-            <iframe
-                id="previewFrame"
-                sandbox="allow-scripts allow-forms">
-            </iframe>
-
-        </div>
+        <button id="copy" class="primary">
+            Copy JSON
+        </button>
 
     </div>
 
+    <div class="notice" style="margin-top:20px">
 
-    <!-- JSON -->
-
-    <div
-        id="resultPanel"
-        class="panel result">
-
-        <h2>4. Generated `games.json` entry</h2>
-
-        <p class="muted">
-            Copy this object into your repository's
-            <code>games.json</code>.
-        </p>
-
-        <pre id="result"></pre>
-
-        <div class="button-row" style="margin-top:15px;">
-
-            <button
-                id="copy"
-                class="primary">
-                Copy JSON
-            </button>
-
-        </div>
-
-        <div
-            class="notice"
-            style="margin-top:20px;">
-
-            <strong>Important:</strong>
-            GitHub Pages cannot directly write this generated
-            entry into your repository. The game file itself
-            must still be added to your repository through
-            GitHub/Codespaces.
-
-        </div>
+        <strong>Important:</strong>
+        The game and cover image still need to be added
+        to your repository through GitHub/Codespaces.
 
     </div>
+
+</div>
 
 </main>
 
-
 <footer>
-
-    <p>
-        Only add content you have permission to publish.
-    </p>
-
+    <p>Only add content you have permission to publish.</p>
 </footer>
-
 
 <script>
 
@@ -575,6 +468,21 @@ const dropzone =
 
 const fileInfo =
     document.getElementById("fileInfo");
+
+const imageInput =
+    document.getElementById("imageFile");
+
+const imageDropzone =
+    document.getElementById("imageDropzone");
+
+const imageInfo =
+    document.getElementById("imageInfo");
+
+const imagePreview =
+    document.getElementById("imagePreview");
+
+const previewImage =
+    document.getElementById("previewImage");
 
 const titleInput =
     document.getElementById("title");
@@ -612,141 +520,164 @@ const browserPreview =
 const previewFrame =
     document.getElementById("previewFrame");
 
-
 let selectedFile = null;
+let selectedImage = null;
 
 
-dropzone.addEventListener(
-    "click",
-    () => fileInput.click()
-);
+/* GAME FILE */
 
+dropzone.onclick =
+    () => fileInput.click();
 
-fileInput.addEventListener(
-    "change",
+fileInput.onchange =
     () => {
 
-        if (fileInput.files.length > 0) {
-
-            setFile(
-                fileInput.files[0]
-            );
-
+        if(fileInput.files.length){
+            setFile(fileInput.files[0]);
         }
 
-    }
-);
+    };
 
 
-dropzone.addEventListener(
-    "dragover",
+dropzone.ondragover =
+    event => {
+
+        event.preventDefault();
+        dropzone.classList.add("dragging");
+
+    };
+
+
+dropzone.ondragleave =
+    () => dropzone.classList.remove("dragging");
+
+
+dropzone.ondrop =
     event => {
 
         event.preventDefault();
 
-        dropzone.classList.add(
-            "dragging"
-        );
+        dropzone.classList.remove("dragging");
 
-    }
-);
-
-
-dropzone.addEventListener(
-    "dragleave",
-    () => {
-
-        dropzone.classList.remove(
-            "dragging"
-        );
-
-    }
-);
-
-
-dropzone.addEventListener(
-    "drop",
-    event => {
-
-        event.preventDefault();
-
-        dropzone.classList.remove(
-            "dragging"
-        );
-
-        const files =
-            event.dataTransfer.files;
-
-        if (files.length > 0) {
-
-            setFile(files[0]);
-
+        if(event.dataTransfer.files.length){
+            setFile(event.dataTransfer.files[0]);
         }
 
-    }
-);
+    };
 
 
-function setFile(file) {
+function setFile(file){
 
     selectedFile = file;
 
     const extension =
         getExtension(file.name);
 
-    fileInfo.style.display =
-        "block";
+    fileInfo.style.display = "block";
 
-    fileInfo.innerHTML = `
-        <strong>${escapeHTML(file.name)}</strong>
-        <br>
-        ${formatBytes(file.size)}
-        <br>
-        Detected type: ${escapeHTML(extension || "unknown")}
-    `;
+    fileInfo.innerHTML =
+        `<strong>${escapeHTML(file.name)}</strong>
+        <br>${formatBytes(file.size)}
+        <br>Detected type: ${escapeHTML(extension || "unknown")}`;
 
-
-    if (!titleInput.value.trim()) {
+    if(!titleInput.value.trim()){
 
         titleInput.value =
-            file.name.replace(
-                /\.[^/.]+$/,
-                ""
-            );
+            file.name.replace(/\.[^/.]+$/,"");
 
     }
 
-
-    if (
+    if(
         extension === "gba" ||
         extension === "gbc" ||
         extension === "gb"
-    ) {
+    ){
 
-        categoryInput.value =
-            "Gameboys";
+        categoryInput.value = "Gameboys";
 
-        if (extension === "gba") {
-            platformInput.value =
-                "Game Boy Advance";
-        }
+        if(extension === "gba")
+            platformInput.value = "Game Boy Advance";
 
-        if (extension === "gbc") {
-            platformInput.value =
-                "Game Boy Color";
-        }
+        if(extension === "gbc")
+            platformInput.value = "Game Boy Color";
 
-        if (extension === "gb") {
-            platformInput.value =
-                "Game Boy";
-        }
-
+        if(extension === "gb")
+            platformInput.value = "Game Boy";
     }
 
 }
 
 
-function getExtension(name) {
+/* IMAGE */
+
+imageDropzone.onclick =
+    () => imageInput.click();
+
+imageInput.onchange =
+    () => {
+
+        if(imageInput.files.length){
+            setImage(imageInput.files[0]);
+        }
+
+    };
+
+
+imageDropzone.ondragover =
+    event => {
+
+        event.preventDefault();
+        imageDropzone.classList.add("dragging");
+
+    };
+
+
+imageDropzone.ondragleave =
+    () => imageDropzone.classList.remove("dragging");
+
+
+imageDropzone.ondrop =
+    event => {
+
+        event.preventDefault();
+
+        imageDropzone.classList.remove("dragging");
+
+        if(event.dataTransfer.files.length){
+            setImage(event.dataTransfer.files[0]);
+        }
+
+    };
+
+
+function setImage(file){
+
+    if(!file.type.startsWith("image/")){
+
+        alert("Please choose an image file.");
+
+        return;
+    }
+
+    selectedImage = file;
+
+    imageInfo.style.display = "block";
+
+    imageInfo.textContent =
+        file.name + " • " +
+        formatBytes(file.size);
+
+    imagePreview.style.display = "block";
+
+    previewImage.src =
+        URL.createObjectURL(file);
+
+}
+
+
+/* HELPERS */
+
+function getExtension(name){
 
     const parts =
         name.toLowerCase().split(".");
@@ -758,70 +689,52 @@ function getExtension(name) {
 }
 
 
-function getGameType(file) {
+function getGameType(file){
 
     const extension =
         getExtension(file.name);
 
-
-    if (
-        extension === "html" ||
-        extension === "htm"
-    ) {
+    if(extension === "html" || extension === "htm")
         return "html";
-    }
 
-
-    if (extension === "zip") {
+    if(extension === "zip")
         return "zip";
-    }
 
-
-    if (
+    if(
         extension === "gb" ||
         extension === "gbc" ||
         extension === "gba"
-    ) {
+    )
         return "emulator";
-    }
-
 
     return "file";
-
 }
 
 
-function getCore(file) {
+function getCore(file){
 
     const extension =
         getExtension(file.name);
 
-
-    if (extension === "gb") {
-        return "gb";
-    }
-
-    if (extension === "gbc") {
-        return "gbc";
-    }
-
-    if (extension === "gba") {
-        return "gba";
-    }
+    if(extension === "gb") return "gb";
+    if(extension === "gbc") return "gbc";
+    if(extension === "gba") return "gba";
 
     return null;
 }
 
 
-document
-    .getElementById("generate")
-    .addEventListener(
-        "click",
-        generateEntry
-    );
+function slug(text){
+
+    return text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g,"-")
+        .replace(/^-|-$/g,"");
+
+}
 
 
-function generateEntry() {
+function generateEntry(){
 
     const title =
         titleInput.value.trim();
@@ -841,26 +754,20 @@ function generateEntry() {
     const tags =
         tagsInput.value
             .split(",")
-            .map(tag => tag.trim())
+            .map(x => x.trim())
             .filter(Boolean);
 
+    if(!title){
 
-    if (!title) {
-
-        alert(
-            "Please enter a game title."
-        );
+        alert("Please enter a game title.");
 
         return;
-
     }
 
-
-    let type =
+    const type =
         selectedFile
             ? getGameType(selectedFile)
             : "web";
-
 
     const entry = {
 
@@ -889,54 +796,65 @@ function generateEntry() {
     };
 
 
-    if (url) {
+    if(url){
 
-        entry.url =
-            url;
+        entry.url = url;
 
-        if (type === "web") {
-            entry.external =
-                true;
+        if(type === "web"){
+            entry.external = true;
         }
 
     }
 
 
-    if (selectedFile) {
+    if(selectedFile){
 
         const extension =
             getExtension(
                 selectedFile.name
             );
 
-
-        if (type === "emulator") {
+        if(type === "emulator"){
 
             entry.file =
-                `games/gameboys/${selectedFile.name}`;
+                "games/gameboys/" +
+                selectedFile.name;
 
             entry.core =
                 getCore(selectedFile);
 
-        } else if (type === "html") {
+        }
+
+        else if(type === "html"){
 
             entry.url =
-                `games/browser/${title
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]+/g, "-")
-                    .replace(/^-|-$/g, "")
-                }/index.html`;
-
-        } else if (type === "zip") {
-
-            entry.path =
-                `games/browser/${title
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]+/g, "-")
-                    .replace(/^-|-$/g, "")
-                }/`;
+                "games/browser/" +
+                slug(title) +
+                "/index.html";
 
         }
+
+        else if(type === "zip"){
+
+            entry.path =
+                "games/browser/" +
+                slug(title) +
+                "/";
+
+        }
+
+    }
+
+
+    /*
+       COVER IMAGE PATH
+    */
+
+    if(selectedImage){
+
+        entry.image =
+            "games/images/" +
+            selectedImage.name;
 
     }
 
@@ -948,60 +866,42 @@ function generateEntry() {
             4
         );
 
-
     resultPanel.style.display =
         "block";
-
 
     previewPanel.style.display =
         "block";
 
 
-    previewText.innerHTML = `
-        <span class="badge">
+    previewText.innerHTML =
+        `<span class="badge">
             ${escapeHTML(type.toUpperCase())}
         </span>
-
         <br>
-
-        <strong>
-            ${escapeHTML(title)}
-        </strong>
-
+        <strong>${escapeHTML(title)}</strong>
         <br>
-
         ${escapeHTML(
             description ||
             "No description provided."
-        )}
-    `;
+        )}`;
 
-
-    /*
-     * Browser HTML preview.
-     */
 
     browserPreview.style.display =
         "none";
 
 
-    if (
+    if(
         selectedFile &&
-        (
-            type === "html"
-        )
-    ) {
-
-        const objectURL =
-            URL.createObjectURL(
-                selectedFile
-            );
+        type === "html"
+    ){
 
         browserPreview.style.display =
             "block";
 
         previewFrame.src =
-            objectURL;
+            URL.createObjectURL(
+                selectedFile
+            );
 
     }
 
@@ -1009,93 +909,74 @@ function generateEntry() {
 
 
 document
+    .getElementById("generate")
+    .onclick = generateEntry;
+
+
+document
     .getElementById("copy")
-    .addEventListener(
-        "click",
-        async () => {
+    .onclick = async () => {
 
-            try {
+        try{
 
-                await navigator
-                    .clipboard
-                    .writeText(
-                        result.textContent
-                    );
+            await navigator.clipboard.writeText(
+                result.textContent
+            );
 
-                document
-                    .getElementById("copy")
-                    .textContent =
-                    "Copied!";
+            document.getElementById("copy")
+                .textContent = "Copied!";
 
-                setTimeout(
-                    () => {
+            setTimeout(
+                () =>
+                    document.getElementById("copy")
+                        .textContent = "Copy JSON",
+                1500
+            );
 
-                        document
-                            .getElementById("copy")
-                            .textContent =
-                            "Copy JSON";
+        }catch{
 
-                    },
-                    1500
-                );
-
-            } catch {
-
-                alert(
-                    "Copy failed. Select and copy the JSON manually."
-                );
-
-            }
+            alert(
+                "Copy failed. Copy the JSON manually."
+            );
 
         }
-    );
+
+    };
 
 
 document
     .getElementById("clear")
-    .addEventListener(
-        "click",
-        () => {
+    .onclick = () => {
 
-            selectedFile = null;
+        selectedFile = null;
+        selectedImage = null;
 
-            fileInput.value = "";
+        fileInput.value = "";
+        imageInput.value = "";
 
-            titleInput.value = "";
+        titleInput.value = "";
+        descriptionInput.value = "";
+        categoryInput.value = "Arcade";
+        platformInput.value = "Web";
+        urlInput.value = "";
+        tagsInput.value = "";
 
-            descriptionInput.value = "";
+        fileInfo.style.display = "none";
+        imageInfo.style.display = "none";
+        imagePreview.style.display = "none";
+        previewPanel.style.display = "none";
+        resultPanel.style.display = "none";
 
-            categoryInput.value =
-                "Arcade";
+        previewFrame.src = "";
+        previewImage.src = "";
 
-            platformInput.value =
-                "Web";
-
-            urlInput.value = "";
-
-            tagsInput.value = "";
-
-            fileInfo.style.display =
-                "none";
-
-            resultPanel.style.display =
-                "none";
-
-            previewPanel.style.display =
-                "none";
-
-            previewFrame.src =
-                "";
-
-        }
-    );
+    };
 
 
-function formatBytes(bytes) {
+function formatBytes(bytes){
 
-    if (bytes === 0) {
+    if(bytes === 0)
         return "0 Bytes";
-    }
 
     const units = [
         "Bytes",
@@ -1114,41 +995,24 @@ function formatBytes(bytes) {
         parseFloat(
             (
                 bytes /
-                Math.pow(
-                    1024,
-                    index
-                )
+                Math.pow(1024,index)
             ).toFixed(2)
-        )
-        + " "
-        + units[index]
+        ) +
+        " " +
+        units[index]
     );
+
 }
 
 
-function escapeHTML(value) {
+function escapeHTML(value){
 
     return String(value)
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 
 }
 
