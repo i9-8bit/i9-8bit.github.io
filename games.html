@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Games | INCRWD</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box
+}
 
 body{
     margin:0;
@@ -212,6 +216,7 @@ footer{
 }
 
 @media(max-width:800px){
+
     header{
         flex-direction:column
     }
@@ -231,15 +236,19 @@ footer{
 
 <header>
 
-    <div class="logo">INCRWD</div>
+    <div class="logo">
+        INCRWD
+    </div>
 
     <nav>
+
         <a href="index.html">Home</a>
         <a href="games.html">Games</a>
         <a href="gameboys.html">Gameboys</a>
         <a href="emulator.html">Emulator</a>
         <a href="add-game.html">Add Game</a>
         <a href="web.html">Web Viewer</a>
+
     </nav>
 
 </header>
@@ -268,40 +277,55 @@ footer{
     </select>
 
     <select id="sort">
+
         <option value="title">Name</option>
         <option value="category">Category</option>
         <option value="platform">Platform</option>
         <option value="favorites">Favorites</option>
+
     </select>
 
 </div>
 
 <div class="tabs">
 
-    <button class="tab active" data-mode="all">
+    <button
+        class="tab active"
+        data-mode="all">
         All
     </button>
 
-    <button class="tab" data-mode="featured">
+    <button
+        class="tab"
+        data-mode="featured">
         ⭐ Featured
     </button>
 
-    <button class="tab" data-mode="favorites">
+    <button
+        class="tab"
+        data-mode="favorites">
         ❤️ Favorites
     </button>
 
 </div>
 
-<div id="count" class="count"></div>
+<div
+    id="count"
+    class="count">
+</div>
 
-<div id="gameList" class="game-grid"></div>
+<div
+    id="gameList"
+    class="game-grid">
+</div>
 
 <div
     id="empty"
     class="empty"
-    style="display:none"
->
+    style="display:none">
+
     No games matched your filters.
+
 </div>
 
 </main>
@@ -338,7 +362,9 @@ const count =
 
 const favorites =
     JSON.parse(
-        localStorage.getItem("incrwd-favorites") || "[]"
+        localStorage.getItem(
+            "incrwd-favorites"
+        ) || "[]"
     );
 
 
@@ -354,7 +380,9 @@ function saveFavorites(){
 
 function isFavorite(game){
 
-    return favorites.includes(game.title);
+    return favorites.includes(
+        game.title
+    );
 
 }
 
@@ -365,13 +393,86 @@ function toggleFavorite(title){
         favorites.indexOf(title);
 
     if(index >= 0){
-        favorites.splice(index,1);
+
+        favorites.splice(
+            index,
+            1
+        );
+
     }else{
+
         favorites.push(title);
+
     }
 
     saveFavorites();
+
     render();
+
+}
+
+
+/*
+    RECENTLY PLAYED
+*/
+
+function saveRecentlyPlayed(game){
+
+    let recent =
+        JSON.parse(
+            localStorage.getItem(
+                "incrwd-recently-played"
+            ) || "[]"
+        );
+
+
+    recent =
+        recent.filter(
+            item =>
+                item.title !== game.title
+        );
+
+
+    recent.unshift({
+
+        title:
+            game.title || "Untitled",
+
+        description:
+            game.description || "",
+
+        category:
+            game.category || "",
+
+        platform:
+            game.platform || "",
+
+        type:
+            game.type || "",
+
+        file:
+            game.file || "",
+
+        core:
+            game.core || "",
+
+        url:
+            game.url || "",
+
+        image:
+            game.image || ""
+
+    });
+
+
+    recent =
+        recent.slice(0,6);
+
+
+    localStorage.setItem(
+        "incrwd-recently-played",
+        JSON.stringify(recent)
+    );
 
 }
 
@@ -379,11 +480,31 @@ function toggleFavorite(title){
 function escapeHTML(value){
 
     return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 
 }
 
@@ -391,38 +512,65 @@ function escapeHTML(value){
 function buildFilters(){
 
     const categories = [
+
         ...new Set(
+
             games
-                .map(g => g.category)
+
+                .map(
+                    g => g.category
+                )
+
                 .filter(Boolean)
+
         )
+
     ].sort();
 
+
     const platforms = [
+
         ...new Set(
+
             games
-                .map(g => g.platform)
+
+                .map(
+                    g => g.platform
+                )
+
                 .filter(Boolean)
+
         )
+
     ].sort();
+
 
     category.innerHTML =
         '<option value="all">All Categories</option>';
 
+
     platform.innerHTML =
         '<option value="all">All Platforms</option>';
+
 
     for(const item of categories){
 
         category.innerHTML +=
-            `<option value="${escapeHTML(item)}">${escapeHTML(item)}</option>`;
+
+            `<option value="${escapeHTML(item)}">
+                ${escapeHTML(item)}
+            </option>`;
 
     }
+
 
     for(const item of platforms){
 
         platform.innerHTML +=
-            `<option value="${escapeHTML(item)}">${escapeHTML(item)}</option>`;
+
+            `<option value="${escapeHTML(item)}">
+                ${escapeHTML(item)}
+            </option>`;
 
     }
 
@@ -437,13 +585,20 @@ function getPlayURL(game){
     ){
 
         return (
+
             "emulator.html?rom=" +
-            encodeURIComponent(game.file) +
+            encodeURIComponent(
+                game.file
+            ) +
             "&core=" +
-            encodeURIComponent(game.core || "")
+            encodeURIComponent(
+                game.core || ""
+            )
+
         );
 
     }
+
 
     return game.url || "#";
 
@@ -457,118 +612,157 @@ function render(){
             .trim()
             .toLowerCase();
 
+
     let filtered =
-        games.filter(game => {
+        games.filter(
+            game => {
 
-            const text = [
-                game.title || "",
-                game.description || "",
-                game.category || "",
-                game.platform || "",
-                ...(game.tags || [])
-            ]
-            .join(" ")
-            .toLowerCase();
+                const text = [
 
-            const matchesSearch =
-                !query ||
-                text.includes(query);
+                    game.title || "",
+                    game.description || "",
+                    game.category || "",
+                    game.platform || "",
+                    ...(game.tags || [])
 
-            const matchesCategory =
-                category.value === "all" ||
-                game.category === category.value;
+                ]
 
-            const matchesPlatform =
-                platform.value === "all" ||
-                game.platform === platform.value;
+                .join(" ")
+                .toLowerCase();
 
-            const matchesMode =
-                mode === "all" ||
-                (
-                    mode === "featured" &&
-                    game.featured
-                ) ||
-                (
-                    mode === "favorites" &&
-                    isFavorite(game)
+
+                const matchesSearch =
+                    !query ||
+                    text.includes(query);
+
+
+                const matchesCategory =
+                    category.value === "all" ||
+                    game.category === category.value;
+
+
+                const matchesPlatform =
+                    platform.value === "all" ||
+                    game.platform === platform.value;
+
+
+                const matchesMode =
+                    mode === "all" ||
+
+                    (
+                        mode === "featured" &&
+                        game.featured
+                    ) ||
+
+                    (
+                        mode === "favorites" &&
+                        isFavorite(game)
+                    );
+
+
+                return (
+
+                    matchesSearch &&
+                    matchesCategory &&
+                    matchesPlatform &&
+                    matchesMode
+
                 );
 
-            return (
-                matchesSearch &&
-                matchesCategory &&
-                matchesPlatform &&
-                matchesMode
-            );
-
-        });
-
-
-    filtered.sort((a,b) => {
-
-        if(sort.value === "category"){
-
-            return (
-                (a.category || "")
-                .localeCompare(
-                    b.category || ""
-                )
-            );
-
-        }
-
-        if(sort.value === "platform"){
-
-            return (
-                (a.platform || "")
-                .localeCompare(
-                    b.platform || ""
-                )
-            );
-
-        }
-
-        if(sort.value === "favorites"){
-
-            return (
-                Number(isFavorite(b)) -
-                Number(isFavorite(a)) ||
-                (a.title || "")
-                .localeCompare(
-                    b.title || ""
-                )
-            );
-
-        }
-
-        return (
-            (a.title || "")
-            .localeCompare(
-                b.title || ""
-            )
+            }
         );
 
-    });
+
+    filtered.sort(
+        (a,b) => {
+
+            if(sort.value === "category"){
+
+                return (
+
+                    (a.category || "")
+                    .localeCompare(
+                        b.category || ""
+                    )
+
+                );
+
+            }
+
+
+            if(sort.value === "platform"){
+
+                return (
+
+                    (a.platform || "")
+                    .localeCompare(
+                        b.platform || ""
+                    )
+
+                );
+
+            }
+
+
+            if(sort.value === "favorites"){
+
+                return (
+
+                    Number(
+                        isFavorite(b)
+                    ) -
+
+                    Number(
+                        isFavorite(a)
+                    ) ||
+
+                    (a.title || "")
+                        .localeCompare(
+                            b.title || ""
+                        )
+
+                );
+
+            }
+
+
+            return (
+
+                (a.title || "")
+                    .localeCompare(
+                        b.title || ""
+                    )
+
+            );
+
+        }
+    );
 
 
     count.textContent =
         `${filtered.length} game${
             filtered.length === 1
-            ? ""
-            : "s"
+                ? ""
+                : "s"
         }`;
+
 
     gameList.innerHTML = "";
 
+
     empty.style.display =
         filtered.length
-        ? "none"
-        : "block";
+            ? "none"
+            : "block";
 
 
     for(const game of filtered){
 
         const card =
-            document.createElement("article");
+            document.createElement(
+                "article"
+            );
+
 
         card.className =
             "game-card";
@@ -577,28 +771,45 @@ function render(){
         const favorite =
             isFavorite(game);
 
+
         const playURL =
             getPlayURL(game);
 
+
         const external =
             game.type === "web" &&
-            /^https?:\/\//i.test(playURL);
+            /^https?:\/\//i.test(
+                playURL
+            );
 
 
         const image =
             game.image
+
             ? `
+
                 <img
                     class="card-image"
-                    src="${escapeHTML(game.image)}"
-                    alt="${escapeHTML(game.title || "Game")}"
-                    onerror="this.outerHTML='<div class=&quot;card-placeholder&quot;>🎮</div>'"
+                    src="${escapeHTML(
+                        game.image
+                    )}"
+                    alt="${escapeHTML(
+                        game.title || "Game"
+                    )}"
+                    onerror="
+                        this.outerHTML=
+                        '<div class=&quot;card-placeholder&quot;>🎮</div>'
+                    "
                 >
+
             `
+
             : `
+
                 <div class="card-placeholder">
                     🎮
                 </div>
+
             `;
 
 
@@ -609,60 +820,91 @@ function render(){
             <div class="card-top">
 
                 <button
-                    class="star ${favorite ? "favorite" : ""}"
-                    title="Favorite"
-                >
-                    ${favorite ? "★" : "☆"}
+                    class="star ${
+                        favorite
+                            ? "favorite"
+                            : ""
+                    }"
+                    title="Favorite">
+
+                    ${
+                        favorite
+                            ? "★"
+                            : "☆"
+                    }
+
                 </button>
 
             </div>
 
+
             <div class="game-card-content">
 
                 <h2>
+
                     ${escapeHTML(
-                        game.title || "Untitled"
+                        game.title ||
+                        "Untitled"
                     )}
+
                 </h2>
 
+
                 <p>
+
                     ${escapeHTML(
                         game.description ||
                         "No description available."
                     )}
+
                 </p>
+
 
                 <div class="meta">
 
                     ${escapeHTML(
-                        game.category || "Other"
+                        game.category ||
+                        "Other"
                     )}
 
                     •
 
                     ${escapeHTML(
-                        game.platform || "Web"
+                        game.platform ||
+                        "Web"
                     )}
 
                 </div>
 
+
                 <a
                     class="play"
-                    href="${escapeHTML(playURL)}"
+                    href="${escapeHTML(
+                        playURL
+                    )}"
+
                     ${
                         external
+
                         ? 'target="_blank" rel="noopener noreferrer"'
+
                         : ""
                     }
                 >
+
                     ${
                         game.type === "emulator"
-                        ? "▶ Play in Emulator"
-                        : "▶ Play"
+
+                            ? "▶ Play in Emulator"
+
+                            : "▶ Play"
+
                     }
+
                 </a>
 
             </div>
+
         `;
 
 
@@ -670,7 +912,25 @@ function render(){
             .querySelector(".star")
             .addEventListener(
                 "click",
-                () => toggleFavorite(game.title)
+                () =>
+                    toggleFavorite(
+                        game.title
+                    )
+            );
+
+
+        /*
+            SAVE GAME WHEN PLAY IS CLICKED
+        */
+
+        card
+            .querySelector(".play")
+            .addEventListener(
+                "click",
+                () =>
+                    saveRecentlyPlayed(
+                        game
+                    )
             );
 
 
@@ -688,8 +948,11 @@ async function loadGames(){
         const response =
             await fetch(
                 "games.json",
-                {cache:"no-store"}
+                {
+                    cache:"no-store"
+                }
             );
+
 
         if(!response.ok){
 
@@ -699,15 +962,20 @@ async function loadGames(){
 
         }
 
+
         games =
             await response.json();
 
+
         buildFilters();
+
         render();
+
 
     }catch(error){
 
         console.error(error);
+
 
         gameList.innerHTML = `
 
@@ -739,15 +1007,18 @@ search.addEventListener(
     render
 );
 
+
 category.addEventListener(
     "change",
     render
 );
 
+
 platform.addEventListener(
     "change",
     render
 );
+
 
 sort.addEventListener(
     "change",
@@ -757,34 +1028,39 @@ sort.addEventListener(
 
 document
     .querySelectorAll(".tab")
-    .forEach(tab => {
+    .forEach(
+        tab => {
 
-        tab.addEventListener(
-            "click",
-            () => {
+            tab.addEventListener(
+                "click",
+                () => {
 
-                document
-                    .querySelectorAll(".tab")
-                    .forEach(
-                        x =>
-                            x.classList.remove(
-                                "active"
-                            )
+                    document
+                        .querySelectorAll(".tab")
+                        .forEach(
+                            x =>
+                                x.classList.remove(
+                                    "active"
+                                )
+                        );
+
+
+                    tab.classList.add(
+                        "active"
                     );
 
-                tab.classList.add(
-                    "active"
-                );
 
-                mode =
-                    tab.dataset.mode;
+                    mode =
+                        tab.dataset.mode;
 
-                render();
 
-            }
-        );
+                    render();
 
-    });
+                }
+            );
+
+        }
+    );
 
 
 loadGames();
