@@ -301,4 +301,12 @@ body{
         linear-gradient(rgba(8,10,16,.72),rgba(8,10,16,.72)),
         url("https://wallup.net/wp-content/uploads/2019/09/400339-amd-computer-gaming-game-graphics.jpg")
         center/cover fixed no-repeat;
+
+}
+
+.game-image{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+    display:block;
 }

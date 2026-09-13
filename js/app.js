@@ -1,73 +1,80 @@
-async function loadGames() {
-    try {
-        const response = await fetch("games.json");
+async function loadGames(){
+    try{
+        const response=await fetch("games.json");
 
-        if (!response.ok) {
+        if(!response.ok)
             throw new Error("Could not load games.json");
-        }
 
-        const games = await response.json();
+        renderFeatured(await response.json());
 
-        renderFeatured(games);
-
-    } catch (error) {
-        console.error("Game loading error:", error);
+    }catch(error){
+        console.error("Game loading error:",error);
     }
 }
 
-function renderFeatured(games) {
-    const container =
-        document.getElementById("featuredGames");
+function renderFeatured(games){
 
-    if (!container) {
-        return;
-    }
+    const container=document.getElementById("featuredGames");
 
-    const featured =
-        games.filter(game => game.featured);
+    if(!container)return;
 
-    container.innerHTML =
-        featured.map(game => {
+    const featured=games.filter(game=>game.featured);
 
-            return `
-                <article class="game-card">
+    container.innerHTML=featured.map(game=>{
 
-                    <div class="game-card-content">
+        const playURL=
+            game.type==="emulator" && game.file
+            ? "emulator.html?rom="+
+              encodeURIComponent(game.file)+
+              "&core="+
+              encodeURIComponent(game.core||"")
+            : game.url||"#";
 
-                        <h3>
-                            ${escapeHTML(game.title)}
-                        </h3>
+        const image=game.image
+            ? `<img class="game-image"
+                 src="${escapeHTML(game.image)}"
+                 alt="${escapeHTML(game.title)}"
+                 onerror="this.style.display='none'">`
+            : "";
 
-                        <p>
-                            ${escapeHTML(game.description)}
-                        </p>
+        return `
+            <article class="game-card">
+                ${image}
 
-                        <p>
-                            ${escapeHTML(game.category)}
-                        </p>
+                <div class="game-card-content">
+                    <h3>${escapeHTML(game.title)}</h3>
 
-                        <a
-                            class="play-button"
-                            href="game.html?url=${encodeURIComponent(game.url)}"
-                        >
-                            Play
-                        </a>
+                    <p>${escapeHTML(
+                        game.description||""
+                    )}</p>
 
-                    </div>
+                    <p>${escapeHTML(
+                        game.category||""
+                    )}</p>
 
-                </article>
-            `;
+                    <a
+                        class="play-button"
+                        href="${escapeHTML(playURL)}"
+                        ${game.type==="web" && /^https?:\/\//i.test(playURL)
+                            ? 'target="_blank" rel="noopener noreferrer"'
+                            : ""}
+                    >
+                        ▶ Play
+                    </a>
+                </div>
+            </article>
+        `;
 
-        }).join("");
+    }).join("");
 }
 
-function escapeHTML(value) {
+function escapeHTML(value){
     return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 }
 
 loadGames();
