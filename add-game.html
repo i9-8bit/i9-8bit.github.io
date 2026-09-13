@@ -253,14 +253,14 @@ footer{
         <span class="muted">or click to choose a file</span>
         <br><br>
         <span class="muted">
-            HTML • ZIP • GB • GBC • GBA
+            HTML • ZIP • GB • GBC • GBA • NES • SNES • N64 • Genesis • PS1
         </span>
     </div>
 
     <input
         id="file"
         type="file"
-        accept=".html,.htm,.zip,.gb,.gbc,.gba"
+        accept=".html,.htm,.zip,.gb,.gbc,.gba,.nes,.fds,.sfc,.smc,.n64,.z64,.v64,.md,.gen,.smd,.sms,.gg,.pce,.ngp,.ngc,.ws,.wsc,.a26,.a52,.a78,.lnx,.col,.d64,.iso,.cue,.chd,.pbp"
         hidden
     >
 
@@ -460,560 +460,51 @@ footer{
 
 <script>
 
-const fileInput =
-    document.getElementById("file");
-
-const dropzone =
-    document.getElementById("dropzone");
-
-const fileInfo =
-    document.getElementById("fileInfo");
-
-const imageInput =
-    document.getElementById("imageFile");
-
-const imageDropzone =
-    document.getElementById("imageDropzone");
-
-const imageInfo =
-    document.getElementById("imageInfo");
-
-const imagePreview =
-    document.getElementById("imagePreview");
-
-const previewImage =
-    document.getElementById("previewImage");
-
-const titleInput =
-    document.getElementById("title");
-
-const descriptionInput =
-    document.getElementById("description");
-
-const categoryInput =
-    document.getElementById("category");
-
-const platformInput =
-    document.getElementById("platform");
-
-const urlInput =
-    document.getElementById("url");
-
-const tagsInput =
-    document.getElementById("tags");
-
-const result =
-    document.getElementById("result");
-
-const resultPanel =
-    document.getElementById("resultPanel");
-
-const previewPanel =
-    document.getElementById("previewPanel");
-
-const previewText =
-    document.getElementById("previewText");
-
-const browserPreview =
-    document.getElementById("browserPreview");
-
-const previewFrame =
-    document.getElementById("previewFrame");
-
-let selectedFile = null;
-let selectedImage = null;
-
-
-/* GAME FILE */
-
-dropzone.onclick =
-    () => fileInput.click();
-
-fileInput.onchange =
-    () => {
-
-        if(fileInput.files.length){
-            setFile(fileInput.files[0]);
-        }
-
-    };
-
-
-dropzone.ondragover =
-    event => {
-
-        event.preventDefault();
-        dropzone.classList.add("dragging");
-
-    };
-
-
-dropzone.ondragleave =
-    () => dropzone.classList.remove("dragging");
-
-
-dropzone.ondrop =
-    event => {
-
-        event.preventDefault();
-
-        dropzone.classList.remove("dragging");
-
-        if(event.dataTransfer.files.length){
-            setFile(event.dataTransfer.files[0]);
-        }
-
-    };
-
-
-function setFile(file){
-
-    selectedFile = file;
-
-    const extension =
-        getExtension(file.name);
-
-    fileInfo.style.display = "block";
-
-    fileInfo.innerHTML =
-        `<strong>${escapeHTML(file.name)}</strong>
-        <br>${formatBytes(file.size)}
-        <br>Detected type: ${escapeHTML(extension || "unknown")}`;
-
-    if(!titleInput.value.trim()){
-
-        titleInput.value =
-            file.name.replace(/\.[^/.]+$/,"");
-
-    }
-
-    if(
-        extension === "gba" ||
-        extension === "gbc" ||
-        extension === "gb"
-    ){
-
-        categoryInput.value = "Gameboys";
-
-        if(extension === "gba")
-            platformInput.value = "Game Boy Advance";
-
-        if(extension === "gbc")
-            platformInput.value = "Game Boy Color";
-
-        if(extension === "gb")
-            platformInput.value = "Game Boy";
-    }
-
-}
-
-
-/* IMAGE */
-
-imageDropzone.onclick =
-    () => imageInput.click();
-
-imageInput.onchange =
-    () => {
-
-        if(imageInput.files.length){
-            setImage(imageInput.files[0]);
-        }
-
-    };
-
-
-imageDropzone.ondragover =
-    event => {
-
-        event.preventDefault();
-        imageDropzone.classList.add("dragging");
-
-    };
-
-
-imageDropzone.ondragleave =
-    () => imageDropzone.classList.remove("dragging");
-
-
-imageDropzone.ondrop =
-    event => {
-
-        event.preventDefault();
-
-        imageDropzone.classList.remove("dragging");
-
-        if(event.dataTransfer.files.length){
-            setImage(event.dataTransfer.files[0]);
-        }
-
-    };
-
-
-function setImage(file){
-
-    if(!file.type.startsWith("image/")){
-
-        alert("Please choose an image file.");
-
-        return;
-    }
-
-    selectedImage = file;
-
-    imageInfo.style.display = "block";
-
-    imageInfo.textContent =
-        file.name + " • " +
-        formatBytes(file.size);
-
-    imagePreview.style.display = "block";
-
-    previewImage.src =
-        URL.createObjectURL(file);
-
-}
-
-
-/* HELPERS */
-
-function getExtension(name){
-
-    const parts =
-        name.toLowerCase().split(".");
-
-    return parts.length > 1
-        ? parts.pop()
-        : "";
-
-}
-
-
 function getGameType(file){
+    const e=getExtension(file.name);
 
-    const extension =
-        getExtension(file.name);
-
-    if(extension === "html" || extension === "htm")
-        return "html";
-
-    if(extension === "zip")
-        return "zip";
-
-    if(
-        extension === "gb" ||
-        extension === "gbc" ||
-        extension === "gba"
-    )
-        return "emulator";
+    if(["html","htm"].includes(e)) return "html";
+    if(e==="zip") return "zip";
+    if(CORE[e]) return "emulator";
 
     return "file";
 }
 
+const CORE={
+    gb:"gb",
+    gbc:"gbc",
+    gba:"gba",
+    nes:"nes",
+    fds:"nes",
+    sfc:"snes",
+    smc:"snes",
+    n64:"n64",
+    z64:"n64",
+    v64:"n64",
+    md:"segaMD",
+    gen:"segaMD",
+    smd:"segaMD",
+    sms:"segaMS",
+    gg:"segaGG",
+    pce:"pce",
+    ngp:"ngp",
+    ngc:"ngp",
+    ws:"ws",
+    wsc:"ws",
+    a26:"atari2600",
+    a52:"a5200",
+    a78:"atari7800",
+    lnx:"lynx",
+    col:"coleco",
+    d64:"vice_x64sc",
+    iso:"psx",
+    cue:"psx",
+    chd:"psx",
+    pbp:"psx"
+};
 
 function getCore(file){
-
-    const extension =
-        getExtension(file.name);
-
-    if(extension === "gb") return "gb";
-    if(extension === "gbc") return "gbc";
-    if(extension === "gba") return "gba";
-
-    return null;
-}
-
-
-function slug(text){
-
-    return text
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g,"-")
-        .replace(/^-|-$/g,"");
-
-}
-
-
-function generateEntry(){
-
-    const title =
-        titleInput.value.trim();
-
-    const description =
-        descriptionInput.value.trim();
-
-    const category =
-        categoryInput.value;
-
-    const platform =
-        platformInput.value;
-
-    const url =
-        urlInput.value.trim();
-
-    const tags =
-        tagsInput.value
-            .split(",")
-            .map(x => x.trim())
-            .filter(Boolean);
-
-    if(!title){
-
-        alert("Please enter a game title.");
-
-        return;
-    }
-
-    const type =
-        selectedFile
-            ? getGameType(selectedFile)
-            : "web";
-
-    const entry = {
-
-        title:
-            title,
-
-        description:
-            description ||
-            "No description provided.",
-
-        category:
-            category,
-
-        platform:
-            platform,
-
-        type:
-            type,
-
-        featured:
-            false,
-
-        tags:
-            tags
-
-    };
-
-
-    if(url){
-
-        entry.url = url;
-
-        if(type === "web"){
-            entry.external = true;
-        }
-
-    }
-
-
-    if(selectedFile){
-
-        const extension =
-            getExtension(
-                selectedFile.name
-            );
-
-        if(type === "emulator"){
-
-            entry.file =
-                "games/gameboys/" +
-                selectedFile.name;
-
-            entry.core =
-                getCore(selectedFile);
-
-        }
-
-        else if(type === "html"){
-
-            entry.url =
-                "games/browser/" +
-                slug(title) +
-                "/index.html";
-
-        }
-
-        else if(type === "zip"){
-
-            entry.path =
-                "games/browser/" +
-                slug(title) +
-                "/";
-
-        }
-
-    }
-
-
-    /*
-       COVER IMAGE PATH
-    */
-
-    if(selectedImage){
-
-        entry.image =
-            "games/images/" +
-            selectedImage.name;
-
-    }
-
-
-    result.textContent =
-        JSON.stringify(
-            entry,
-            null,
-            4
-        );
-
-    resultPanel.style.display =
-        "block";
-
-    previewPanel.style.display =
-        "block";
-
-
-    previewText.innerHTML =
-        `<span class="badge">
-            ${escapeHTML(type.toUpperCase())}
-        </span>
-        <br>
-        <strong>${escapeHTML(title)}</strong>
-        <br>
-        ${escapeHTML(
-            description ||
-            "No description provided."
-        )}`;
-
-
-    browserPreview.style.display =
-        "none";
-
-
-    if(
-        selectedFile &&
-        type === "html"
-    ){
-
-        browserPreview.style.display =
-            "block";
-
-        previewFrame.src =
-            URL.createObjectURL(
-                selectedFile
-            );
-
-    }
-
-}
-
-
-document
-    .getElementById("generate")
-    .onclick = generateEntry;
-
-
-document
-    .getElementById("copy")
-    .onclick = async () => {
-
-        try{
-
-            await navigator.clipboard.writeText(
-                result.textContent
-            );
-
-            document.getElementById("copy")
-                .textContent = "Copied!";
-
-            setTimeout(
-                () =>
-                    document.getElementById("copy")
-                        .textContent = "Copy JSON",
-                1500
-            );
-
-        }catch{
-
-            alert(
-                "Copy failed. Copy the JSON manually."
-            );
-
-        }
-
-    };
-
-
-document
-    .getElementById("clear")
-    .onclick = () => {
-
-        selectedFile = null;
-        selectedImage = null;
-
-        fileInput.value = "";
-        imageInput.value = "";
-
-        titleInput.value = "";
-        descriptionInput.value = "";
-        categoryInput.value = "Arcade";
-        platformInput.value = "Web";
-        urlInput.value = "";
-        tagsInput.value = "";
-
-        fileInfo.style.display = "none";
-        imageInfo.style.display = "none";
-        imagePreview.style.display = "none";
-        previewPanel.style.display = "none";
-        resultPanel.style.display = "none";
-
-        previewFrame.src = "";
-        previewImage.src = "";
-
-    };
-
-
-function formatBytes(bytes){
-
-    if(bytes === 0)
-        return "0 Bytes";
-
-    const units = [
-        "Bytes",
-        "KB",
-        "MB",
-        "GB"
-    ];
-
-    const index =
-        Math.floor(
-            Math.log(bytes) /
-            Math.log(1024)
-        );
-
-    return (
-        parseFloat(
-            (
-                bytes /
-                Math.pow(1024,index)
-            ).toFixed(2)
-        ) +
-        " " +
-        units[index]
-    );
-
-}
-
-
-function escapeHTML(value){
-
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
+    return CORE[getExtension(file.name)] || null;
 }
 
 </script>
