@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Google Classroom - Home</title>
+<title>School Notes</title>
 
 <style>
 body{
@@ -22,7 +22,7 @@ header{
     align-items:center
 }
 
-a{
+nav a{
     color:#8ee5fa;
     text-decoration:none
 }
@@ -50,7 +50,8 @@ h1{
     margin:10px 0;
     padding:12px 15px;
     border-radius:10px;
-    line-height:1.5
+    line-height:1.5;
+    white-space:pre-wrap
 }
 
 .user{
@@ -87,12 +88,18 @@ button{
     cursor:pointer
 }
 
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed
+}
+
 select{
     padding:12px;
     border-radius:10px;
     background:#111620;
     color:#fff;
-    border:1px solid #303847
+    border:1px solid #303847;
+    margin-bottom:12px
 }
 </style>
 </head>
@@ -100,7 +107,8 @@ select{
 <body>
 
 <header>
-    <strong>🤖 INCRWD AI</strong>
+    <strong>📚 School Notes</strong>
+
     <nav>
         <a href="index.html">Home</a> ·
         <a href="games.html">Games</a>
@@ -109,8 +117,12 @@ select{
 
 <main>
 
-<h1>🤖 AI</h1>
-<p>Math, writing, coding, science, recipes, and basically anything else.</p>
+<h1>📚 AI Study Helper</h1>
+
+<p>
+    Math, writing, science, coding, recipes, studying,
+    and basically anything else.
+</p>
 
 <select id="mode">
     <option>General</option>
@@ -124,7 +136,7 @@ select{
 
 <div id="chat">
     <div class="msg ai">
-        Hey! I'm INCRWD AI. Ask me anything.
+        Hey! I'm your AI study helper. Ask me anything.
     </div>
 </div>
 
@@ -145,32 +157,214 @@ select{
 </main>
 
 <script>
-const input=document.getElementById("input");
-const send=document.getElementById("send");
-const chat=document.getElementById("chat");
-const mode=document.getElementById("mode");
+const API =
+    "https://i9-8bit-git-a848.fayyazgadgets.workers.dev/";
+
+const input =
+    document.getElementById("input");
+
+const send =
+    document.getElementById("send");
+
+const chat =
+    document.getElementById("chat");
+
+const mode =
+    document.getElementById("mode");
+
+const messages = [];
 
 function add(text,type){
-    const div=document.createElement("div");
-    div.className="msg "+type;
-    div.textContent=text;
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "msg " + type;
+
+    div.textContent =
+        text;
+
     chat.appendChild(div);
-    chat.scrollTop=chat.scrollHeight;
+
+    chat.scrollTop =
+        chat.scrollHeight;
 }
 
-send.onclick=async()=>{
-    const text=input.value.trim();
+function systemPrompt(){
+
+    return `
+You are the AI assistant for INCRWD School Notes.
+
+Current mode: ${mode.value}
+
+Help the user clearly and accurately.
+
+For Math:
+Explain the steps, not just the answer.
+
+For ELA / Writing:
+Help with grammar, writing, reading,
+outlines, explanations, and revisions.
+
+For Science:
+Explain concepts clearly and accurately.
+
+For Coding:
+Give working code and explain important parts.
+
+For Study:
+Teach the material instead of simply giving answers.
+
+For Creative:
+Help brainstorm and create ideas.
+
+For General:
+Answer normally.
+
+Be helpful, concise, and age-appropriate.
+`;
+}
+
+async function askAI(text){
+
+    messages.push({
+        role:"user",
+        content:text
+    });
+
+    send.disabled = true;
+    input.disabled = true;
+
+    const loading =
+        document.createElement("div");
+
+    loading.className =
+        "msg ai";
+
+    loading.textContent =
+        "Thinking...";
+
+    chat.appendChild(loading);
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+    try{
+
+        const response =
+            await fetch(API,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    messages:[
+                        {
+                            role:"system",
+                            content:systemPrompt()
+                        },
+                        ...messages
+                    ]
+                })
+            });
+
+        const data =
+            await response.json();
+
+        loading.remove();
+
+        if(response.status === 429){
+
+            add(
+                "You've used all 10 AI requests for today. Come back tomorrow.",
+                "ai"
+            );
+
+            messages.pop();
+            return;
+        }
+
+        if(!response.ok){
+
+            add(
+                data.message ||
+                data.error ||
+                "The AI request failed.",
+                "ai"
+            );
+
+            messages.pop();
+            return;
+        }
+
+        const reply =
+            data?.choices?.[0]?.message?.content;
+
+        if(!reply){
+
+            add(
+                "The AI returned no response.",
+                "ai"
+            );
+
+            messages.pop();
+            return;
+        }
+
+        messages.push({
+            role:"assistant",
+            content:reply
+        });
+
+        add(reply,"ai");
+
+    }catch(error){
+
+        loading.remove();
+
+        messages.pop();
+
+        add(
+            "Could not connect to the AI server.",
+            "ai"
+        );
+
+        console.error(error);
+
+    }finally{
+
+        send.disabled = false;
+        input.disabled = false;
+        input.focus();
+
+    }
+}
+
+send.onclick = () => {
+
+    const text =
+        input.value.trim();
+
     if(!text)return;
 
     add(text,"user");
-    input.value="";
 
-    add("AI backend is not connected yet.","ai");
+    input.value = "";
+
+    askAI(text);
 };
 
-input.addEventListener("keydown",e=>{
-    if(e.key==="Enter")send.click();
-});
+input.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Enter"){
+            send.click();
+        }
+
+    }
+);
 </script>
 
 </body>
