@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INCRWD AI</title>
+
+<style>
+body{
+    margin:0;
+    background:#080a10;
+    color:#fff;
+    font-family:Arial,sans-serif
+}
+
+header{
+    padding:18px 24px;
+    background:#090b12;
+    border-bottom:1px solid #252b38;
+    display:flex;
+    justify-content:space-between;
+    align-items:center
+}
+
+a{
+    color:#8ee5fa;
+    text-decoration:none
+}
+
+main{
+    max-width:1000px;
+    margin:auto;
+    padding:25px
+}
+
+h1{
+    margin-bottom:5px
+}
+
+#chat{
+    height:60vh;
+    overflow:auto;
+    background:#111620;
+    border:1px solid #283142;
+    border-radius:14px;
+    padding:20px
+}
+
+.msg{
+    margin:10px 0;
+    padding:12px 15px;
+    border-radius:10px;
+    line-height:1.5
+}
+
+.user{
+    background:#173448;
+    text-align:right
+}
+
+.ai{
+    background:#19202c
+}
+
+.controls{
+    display:flex;
+    gap:10px;
+    margin-top:12px
+}
+
+input{
+    flex:1;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #303847;
+    background:#111620;
+    color:#fff
+}
+
+button{
+    padding:14px 18px;
+    border:0;
+    border-radius:10px;
+    background:#00acd6;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer
+}
+
+select{
+    padding:12px;
+    border-radius:10px;
+    background:#111620;
+    color:#fff;
+    border:1px solid #303847
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <strong>🤖 INCRWD AI</strong>
+    <nav>
+        <a href="index.html">Home</a> ·
+        <a href="games.html">Games</a>
+    </nav>
+</header>
+
+<main>
+
+<h1>🤖 AI</h1>
+<p>Math, writing, coding, science, recipes, and basically anything else.</p>
+
+<select id="mode">
+    <option>General</option>
+    <option>Math</option>
+    <option>ELA / Writing</option>
+    <option>Science</option>
+    <option>Coding</option>
+    <option>Study</option>
+    <option>Creative</option>
+</select>
+
+<div id="chat">
+    <div class="msg ai">
+        Hey! I'm INCRWD AI. Ask me anything.
+    </div>
+</div>
+
+<div class="controls">
+
+    <input
+        id="input"
+        placeholder="Ask anything..."
+        autocomplete="off"
+    >
+
+    <button id="send">
+        Send
+    </button>
+
+</div>
+
+</main>
+
+<script>
+const input=document.getElementById("input");
+const send=document.getElementById("send");
+const chat=document.getElementById("chat");
+const mode=document.getElementById("mode");
+
+function add(text,type){
+    const div=document.createElement("div");
+    div.className="msg "+type;
+    div.textContent=text;
+    chat.appendChild(div);
+    chat.scrollTop=chat.scrollHeight;
+}
+
+send.onclick=async()=>{
+    const text=input.value.trim();
+    if(!text)return;
+
+    add(text,"user");
+    input.value="";
+
+    add("AI backend is not connected yet.","ai");
+};
+
+input.addEventListener("keydown",e=>{
+    if(e.key==="Enter")send.click();
+});
+</script>
+
+</body>
+</html>
