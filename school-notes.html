@@ -134,6 +134,8 @@ select{
     <option>Creative</option>
 </select>
 
+
+<div id="usage">10 / 10 AI requests remaining today</div>
 <div id="chat">
     <div class="msg ai">
         Hey! I'm your AI study helper. Ask me anything.
@@ -157,215 +159,22 @@ select{
 </main>
 
 <script>
-const API =
-    "https://i9-8bit-git-a848.fayyazgadgets.workers.dev/";
+const API="https://i9-8bit-git-a848.fayyazgadgets.workers.dev/";
 
-const input =
-    document.getElementById("input");
-
-const send =
-    document.getElementById("send");
-
-const chat =
-    document.getElementById("chat");
-
-const mode =
-    document.getElementById("mode");
-
-const messages = [];
-
-function add(text,type){
-
-    const div =
-        document.createElement("div");
-
-    div.className =
-        "msg " + type;
-
-    div.textContent =
-        text;
-
-    chat.appendChild(div);
-
-    chat.scrollTop =
-        chat.scrollHeight;
-}
-
-function systemPrompt(){
-
-    return `
-You are the AI assistant for INCRWD School Notes.
-
-Current mode: ${mode.value}
-
-Help the user clearly and accurately.
-
-For Math:
-Explain the steps, not just the answer.
-
-For ELA / Writing:
-Help with grammar, writing, reading,
-outlines, explanations, and revisions.
-
-For Science:
-Explain concepts clearly and accurately.
-
-For Coding:
-Give working code and explain important parts.
-
-For Study:
-Teach the material instead of simply giving answers.
-
-For Creative:
-Help brainstorm and create ideas.
-
-For General:
-Answer normally.
-
-Be helpful, concise, and age-appropriate.
-`;
-}
-
-async function askAI(text){
-
-    messages.push({
-        role:"user",
-        content:text
-    });
-
-    send.disabled = true;
-    input.disabled = true;
-
-    const loading =
-        document.createElement("div");
-
-    loading.className =
-        "msg ai";
-
-    loading.textContent =
-        "Thinking...";
-
-    chat.appendChild(loading);
-
-    chat.scrollTop =
-        chat.scrollHeight;
-
+async function updateUsage(){
     try{
+        const r=await fetch(API+"?usage");
+        const d=await r.json();
 
-        const response =
-            await fetch(API,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({
-                    messages:[
-                        {
-                            role:"system",
-                            content:systemPrompt()
-                        },
-                        ...messages
-                    ]
-                })
-            });
-
-        const data =
-            await response.json();
-
-        loading.remove();
-
-        if(response.status === 429){
-
-            add(
-                "You've used all 10 AI requests for today. Come back tomorrow.",
-                "ai"
-            );
-
-            messages.pop();
-            return;
-        }
-
-        if(!response.ok){
-
-            add(
-                data.message ||
-                data.error ||
-                "The AI request failed.",
-                "ai"
-            );
-
-            messages.pop();
-            return;
-        }
-
-        const reply =
-            data?.choices?.[0]?.message?.content;
-
-        if(!reply){
-
-            add(
-                "The AI returned no response.",
-                "ai"
-            );
-
-            messages.pop();
-            return;
-        }
-
-        messages.push({
-            role:"assistant",
-            content:reply
-        });
-
-        add(reply,"ai");
-
-    }catch(error){
-
-        loading.remove();
-
-        messages.pop();
-
-        add(
-            "Could not connect to the AI server.",
-            "ai"
-        );
-
-        console.error(error);
-
-    }finally{
-
-        send.disabled = false;
-        input.disabled = false;
-        input.focus();
-
+        document.getElementById("usage").textContent =
+            `${d.remaining} / ${d.limit} AI requests remaining today`;
+    }catch{
+        document.getElementById("usage").textContent =
+            "AI request counter unavailable";
     }
 }
 
-send.onclick = () => {
-
-    const text =
-        input.value.trim();
-
-    if(!text)return;
-
-    add(text,"user");
-
-    input.value = "";
-
-    askAI(text);
-};
-
-input.addEventListener(
-    "keydown",
-    event => {
-
-        if(event.key === "Enter"){
-            send.click();
-        }
-
-    }
-);
+updateUsage();
 </script>
-
 </body>
-</html>
+</html>}
